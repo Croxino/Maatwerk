@@ -21,7 +21,11 @@ At w3schools.com you will learn how to make a website. We offer free tutorials i
 
 
 <script>
-//48. Write a JavaScript program to reverse a given string.
+
+
+let locN = 0, locE = 0;
+
+let encounter = false;
 
 let warrior = {
 	health:"30",
@@ -38,34 +42,34 @@ let warrior = {
 	// }
 }
 
+let slime = {
+	health:"15",
+	strength:"5",
+	encounter: true
+}
  
-let locN = 0, locE = 0, locS = 0, locW = 0;
-let slime = ""
+
 function movement(){
 
 
 	let text;
 	let cardinalDir = document.getElementById("commandprompt").value;
-	switch(cardinalDir)
+	switch(cardinalDir.toUpperCase())
 	{
-		case "North":
+		case "NORTH":
 		text = "You moved North";
 		locN++;
-		locS--;
 		break;
-		case "East":
+		case "EAST":
 		text = "You moved East";
 		locE++;
-		locW--;
 		break
-		case "South":
+		case "SOUTH":
 		text = "You moved South";
-		locS++;
 		locN--;
 		break
-		case "West":
+		case "WEST":
 		text = "You moved West";
-		locW++;
 		locE--;
 		break;
 		default:
@@ -73,22 +77,33 @@ function movement(){
 	}
 
 
-	// if (cardinalDir = "North") {
-	// 	document.getElementById("log").innerHTML += "abc" + "\n";
-	// }
 	document.getElementById("log").innerHTML += text + "\n";
 
-		if (locN === 1 && locS === -1 && locW === 0 && locE === 0) {
+		if (locN === 1 && locE === 0) {
 		document.getElementById("log").innerHTML += "You encounter a slime" + "\n";
+		//slime.encounter === false;
 	}
-	console.log(locN, locS, locE, locW);
+	console.log(locN, locE);
 }
 
+function combat(){
+
+	if (encounter === true) {
+
+		//movement() = false;
+		console.log("sas");
+
+	}
 
 
+}
 
-//document.getElementById("log").innerHTML = "The first number is ";
+combat();
+console.log(slime.encounter);
+
+
 movement();
+
 
 
 
