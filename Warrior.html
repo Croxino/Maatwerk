@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+     <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+
+<form method="get" onsubmit="return false;">
+	Enter your command <input type = "text" id = "commandprompt">
+	<input type="submit" value="Submit" onclick="movement()">
+</form>
+
+<textarea readonly id = "log" rows="50" cols="110">
+At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies. 
+</textarea>
+
+
+
+
+<script>
+//48. Write a JavaScript program to reverse a given string.
+
+let warrior = {
+	health:"30",
+	mana: "10",
+	strength:"15",
+	vitality: "12",
+	dexterity: "8",
+	intelligence: "5"
+	// playerLoc:{
+	// 	locN = "0", 
+	// 	locE = "0", 
+	// 	locS = "0", 
+	// 	locW = "0";
+	// }
+}
+
+ 
+let locN = 0, locE = 0, locS = 0, locW = 0;
+let slime = ""
+function movement(){
+
+
+	let text;
+	let cardinalDir = document.getElementById("commandprompt").value;
+	switch(cardinalDir)
+	{
+		case "North":
+		text = "You moved North";
+		locN++;
+		locS--;
+		break;
+		case "East":
+		text = "You moved East";
+		locE++;
+		locW--;
+		break
+		case "South":
+		text = "You moved South";
+		locS++;
+		locN--;
+		break
+		case "West":
+		text = "You moved West";
+		locW++;
+		locE--;
+		break;
+		default:
+		text = "Which direction do you want to go?"
+	}
+
+
+	// if (cardinalDir = "North") {
+	// 	document.getElementById("log").innerHTML += "abc" + "\n";
+	// }
+	document.getElementById("log").innerHTML += text + "\n";
+
+		if (locN === 1 && locS === -1 && locW === 0 && locE === 0) {
+		document.getElementById("log").innerHTML += "You encounter a slime" + "\n";
+	}
+	console.log(locN, locS, locE, locW);
+}
+
+
+
+
+//document.getElementById("log").innerHTML = "The first number is ";
+movement();
+
+
+
+    </script>
+</body>
+</html>
