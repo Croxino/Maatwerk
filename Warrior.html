@@ -45,7 +45,7 @@ let warrior = {
 let slime = {
 	health:"15",
 	strength:"5",
-	encounter: true
+	encounter: false
 }
  
 
@@ -53,8 +53,8 @@ function movement(){
 
 
 	let text;
-	let cardinalDir = document.getElementById("commandprompt").value;
-	switch(cardinalDir.toUpperCase())
+	let cardinalDir = document.getElementById("commandprompt").value.toUpperCase();
+	switch(cardinalDir)
 	{
 		case "NORTH":
 		text = "You moved North";
@@ -80,21 +80,25 @@ function movement(){
 	document.getElementById("log").innerHTML += text + "\n";
 
 		if (locN === 1 && locE === 0) {
+		//slime.encounter = true;
 		document.getElementById("log").innerHTML += "You encounter a slime" + "\n";
-		//slime.encounter === false;
+		console.log(slime.encounter);
+
 	}
 	console.log(locN, locE);
 }
 
 function combat(){
 
-	if (encounter === true) {
 
-		//movement() = false;
-		console.log("sas");
+	if (slime.encounter = true) {
+		if (cardinalDir = "ATTACK") {
+
+
+		}
+		
 
 	}
-
 
 }
 
@@ -103,6 +107,7 @@ console.log(slime.encounter);
 
 
 movement();
+
 
 
 
