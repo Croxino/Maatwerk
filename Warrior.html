@@ -43,7 +43,7 @@ let warrior = {
 }
 
 let slime = {
-	health:"15",
+	health:"5",
 	strength:"5",
 	experience: "6",
 	encounter: false
@@ -88,21 +88,32 @@ function movement(){
 	console.log(locN, locE);
 }
 
-function combat(){
+function combat()
+{
 
 	let combatText;
 	let combat = document.getElementById("commandprompt").value.toUpperCase();
-		if (combat = "ATTACK") {
+		if (combat = "ATTACK") 
+		{
 
 			damage = Math.floor(Math.random() * warrior.strength);
+			hpLeft = slime.health - damage;
+			hpLeft = Math.max(0, hpLeft);
+			combatText = "You deal " + damage + " damage"
+			document.getElementById("log").innerHTML += combatText + "\n";
+			document.getElementById("log").innerHTML += "The slime has " + hpLeft + " HP left" + "\n";
+
+			if (hpLeft <= "0") 
+			{
+				document.getElementById("log").innerHTML += "DED" + "\n";
+			}
+				console.log(slime.health);
+				console.log(damage);
+				console.log(slime.health - damage);
+
+		}
 
 
-		console.log(slime.health);
-		console.log(damage);
-		console.log(slime.health - damage);
-
-
-	}
 
 }
 
