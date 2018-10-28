@@ -10,11 +10,11 @@
 
 <form method="get" onsubmit="return false;">
 	Enter your command <input type = "text" id = "commandprompt">
-	<input type="submit" value="Submit" onclick="movement()">
+	<input type="submit" value="Submit" onclick="movement(); combat()">
 </form>
 
 <textarea readonly id = "log" rows="50" cols="110">
-At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies. 
+Welcome, your starting class is a warrior
 </textarea>
 
 
@@ -45,39 +45,39 @@ let warrior = {
 let slime = {
 	health:"15",
 	strength:"5",
+	experience: "6",
 	encounter: false
 }
  
 
 function movement(){
-
-
-	let text;
+	let movementText;
 	let cardinalDir = document.getElementById("commandprompt").value.toUpperCase();
+
 	switch(cardinalDir)
 	{
 		case "NORTH":
-		text = "You moved North";
+		movementText = "You moved North";
 		locN++;
 		break;
 		case "EAST":
-		text = "You moved East";
+		movementText = "You moved East";
 		locE++;
 		break
 		case "SOUTH":
-		text = "You moved South";
+		movementText = "You moved South";
 		locN--;
 		break
 		case "WEST":
-		text = "You moved West";
+		movementText = "You moved West";
 		locE--;
 		break;
 		default:
-		text = "Which direction do you want to go?"
+		movementText = "Which direction do you want to go?"
 	}
 
 
-	document.getElementById("log").innerHTML += text + "\n";
+	document.getElementById("log").innerHTML += movementText + "\n";
 
 		if (locN === 1 && locE === 0) {
 		//slime.encounter = true;
@@ -90,23 +90,27 @@ function movement(){
 
 function combat(){
 
+	let combatText;
+	let combat = document.getElementById("commandprompt").value.toUpperCase();
+		if (combat = "ATTACK") {
 
-	if (slime.encounter = true) {
-		if (cardinalDir = "ATTACK") {
+			damage = Math.floor(Math.random() * warrior.strength);
 
 
-		}
-		
+		console.log(slime.health);
+		console.log(damage);
+		console.log(slime.health - damage);
+
 
 	}
 
 }
 
 combat();
-console.log(slime.encounter);
 
 
-movement();
+
+//movement();
 
 
 
