@@ -24,7 +24,6 @@ Welcome, your starting class is a warrior
 
 
 let locN = 0, locE = 0;
-
 let encounter = false;
 
 let warrior = {
@@ -46,13 +45,17 @@ let slime = {
 	health:"5",
 	strength:"5",
 	experience: "6",
-	encounter: false
 }
  
 
 function movement(){
 	let movementText;
 	let cardinalDir = document.getElementById("commandprompt").value.toUpperCase();
+
+if (encounter === true) {
+
+	return false;
+}
 
 	switch(cardinalDir)
 	{
@@ -92,7 +95,9 @@ function combat()
 {
 
 	let combatText;
+	encounter = true;
 	let combat = document.getElementById("commandprompt").value.toUpperCase();
+
 		if (combat = "ATTACK") 
 		{
 
