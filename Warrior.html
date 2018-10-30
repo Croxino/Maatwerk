@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-     <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
+    <head>
+        <meta charset="utf-8">
+            <title>
+            </title>
+            <link href="style.css" rel="stylesheet" type="text/css">
+            </link>
+        </meta>
+    </head>
+    <body>
+        <form method="get" onsubmit="return false;">
+            Enter your command
+            <input id="commandprompt" type="text">
+                <input onclick="movement();" type="submit" value="Submit">
+                </input>
+            </input>
+        </form>
+        <textarea cols="110" id="log" readonly="" rows="50">
+            Welcome, your starting class is a warrior
+        </textarea>
+        <script>
 
-
-<form method="get" onsubmit="return false;">
-	Enter your command <input type = "text" id = "commandprompt">
-	<input type="submit" value="Submit" onclick="movement(); combat()">
-</form>
-
-<textarea readonly id = "log" rows="50" cols="110">
-Welcome, your starting class is a warrior
-</textarea>
-
-
-
-
-<script>
-
+let monsters = [{type:"slime", health:"5", strength:"5", experience:"6", locN: 1, locE: 0, encounter: false}, 
+				{type:"rat", health:"10", strength:"5", experience:"6",locN: 2, locE: 0}] 
 
 let locN = 0, locE = 0;
 let encounter = false;
@@ -33,29 +34,25 @@ let warrior = {
 	vitality: "12",
 	dexterity: "8",
 	intelligence: "5"
-	// playerLoc:{
-	// 	locN = "0", 
-	// 	locE = "0", 
-	// 	locS = "0", 
-	// 	locW = "0";
-	// }
 }
 
-let slime = {
-	health:"5",
-	strength:"5",
-	experience: "6",
-}
+
+
+// let slime = {
+// 	health:"5",
+// 	strength:"5",
+// 	experience: "6",
+// }
  
 
 function movement(){
 	let movementText;
 	let cardinalDir = document.getElementById("commandprompt").value.toUpperCase();
+	encounter = false;
+// if (encounter === true) {
 
-if (encounter === true) {
-
-	return false;
-}
+// 	return false;
+// }
 
 	switch(cardinalDir)
 	{
@@ -79,59 +76,63 @@ if (encounter === true) {
 		movementText = "Which direction do you want to go?"
 	}
 
+	function monsterPresent() {
+
+		for(let i = 0; i < monsters.length; i++) {
+			let monster = monsters[i];
+			if(monster.locN == locN && monster.locE == locE) {
+				return monster;
+			}
+		}
+		return false;
+	}
 
 	document.getElementById("log").innerHTML += movementText + "\n";
-
-		if (locN === 1 && locE === 0) {
-		//slime.encounter = true;
-		document.getElementById("log").innerHTML += "You encounter a slime" + "\n";
-		console.log(slime.encounter);
+	let monster = monsterPresent();
+	if (monster) 
+	{
+		monster.encounter = true;
+		document.getElementById("log").innerHTML += "You encounter a " + monster.type + "\n";
+		combat(monster);
 
 	}
 	console.log(locN, locE);
 }
 
-function combat()
-{
+console.log(encounter)
 
+
+function combat(monster)
+{
 	let combatText;
 	encounter = true;
 	let combat = document.getElementById("commandprompt").value.toUpperCase();
+	if (combat = "ATTACK") 
+	{
+		damage = Math.floor(Math.random() * warrior.strength);
+		hpLeft = monster.health - damage;
+		hpLeft = Math.max(0, hpLeft);
+		combatText = "You deal " + damage + " damage"
+		document.getElementById("log").innerHTML += combatText + "\n";
+		document.getElementById("log").innerHTML += "The slime has " + hpLeft + " HP left" + "\n";
 
-		if (combat = "ATTACK") 
+		if (hpLeft <= "0") 
 		{
-
-			damage = Math.floor(Math.random() * warrior.strength);
-			hpLeft = slime.health - damage;
-			hpLeft = Math.max(0, hpLeft);
-			combatText = "You deal " + damage + " damage"
-			document.getElementById("log").innerHTML += combatText + "\n";
-			document.getElementById("log").innerHTML += "The slime has " + hpLeft + " HP left" + "\n";
-
-			if (hpLeft <= "0") 
-			{
-				document.getElementById("log").innerHTML += "DED" + "\n";
-			}
-				console.log(slime.health);
-				console.log(damage);
-				console.log(slime.health - damage);
-
+			document.getElementById("log").innerHTML += "DED" + "\n";
+			encounter = false;
 		}
-
-
-
+		console.log(monster.health);
+		console.log(damage);
+		console.log(monster.health - damage);
+	}
 }
 
-combat();
+
+
 
 
 
 //movement();
-
-
-
-
-
-    </script>
-</body>
+        </script>
+    </body>
 </html>
