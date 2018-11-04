@@ -1,26 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-            <title>
-            </title>
-            <link href="style.css" rel="stylesheet" type="text/css">
-            </link>
-        </meta>
-    </head>
-    <body>
-        <form method="get" onsubmit="return false;">
-            Enter your command
-            <input id="commandprompt" type="text">
-                <input id ="myBtn" type="submit" value="Submit">
-                </input>
-            </input>
-        </form>
-        <textarea cols="110" id="log" readonly="" rows="50">
-        Welcome, your starting class is a warrior 
-    </textarea>
-        <script src="javascript.js"></script>
-<!-- <script>
 let monsters = [{
     type: "slime",
     health: "20",
@@ -104,46 +81,55 @@ function movement() {
 }
 
 
-function attack(){
-
-
-    let battleText;
-    let battle = document.getElementById("commandprompt").value.toUpperCase();
-    if (encounter = true) {
-    	    if (battle = "ATTACK"){
-    			console.log("asa");
-    }
-
-    }
-}
-
-// function combat(monster) 
+// function attack()
 // {
 //     let battleText;
+//     let encounter = false;
 //     let battle = document.getElementById("commandprompt").value.toUpperCase();
-//     if (battle = "ATTACK") 
+//     if (encounter = true) 
 //     {
-//         damage = Math.floor(Math.random() * warrior.strength);
-//         hpLeft = monster.health - damage;
-//         hpLeft = Math.max(0, hpLeft);
-//         battleText = "You deal " + damage + " damage"
-//         document.getElementById("log").innerHTML += battleText + "\n";
-//         document.getElementById("log").innerHTML += "The " + monster.type + " has " + hpLeft + " HP left" + "\n";
-// 	}
-//         if (hpLeft <= "0") {
-//             document.getElementById("log").innerHTML += "DED" + "\n";
-//             encounter = false;
-//         }
-//         console.log(monster.health);
-//         console.log(damage);
-//         console.log(monster.health - damage);
-    
+//     	    if (battle = "ATTACK")
+//     	    {
+//     			console.log("asa");
+//     		}
+//     }
 // }
+
+function combat(monster) 
+{
+	if (encounter = true) 
+	{
+	let battleText;
+    let battle = document.getElementById("commandprompt").value.toUpperCase();
+    if (battle = "ATTACK") 
+    {
+        damage = Math.floor(Math.random() * warrior.strength);
+        hpLeft = monster.health - damage;
+        hpLeft = Math.max(0, hpLeft);
+                console.log(hpLeft);
+        battleText = "You deal " + damage + " damage"
+        document.getElementById("log").innerHTML += battleText + "\n";
+        document.getElementById("log").innerHTML += "The " + monster.type + " has " + hpLeft + " HP left" + "\n";
+
+        if (hpLeft != "0") {
+        	hpLeft = hpLeft - damage;
+       	document.getElementById("log").innerHTML += battleText + "\n";
+        document.getElementById("log").innerHTML += "The " + monster.type + " has " + hpLeft + " HP left" + "\n";
+        }
+	}
+        if (hpLeft <= "0") {
+            document.getElementById("log").innerHTML += "Dead" + "\n";
+            encounter = false;
+        }
+        console.log(monster.health);
+        console.log(damage);
+        console.log(monster.health - damage);
+                        console.log(hpLeft);
+
+	}
+    
+    
+}
 console.log(encounter)
 movement();
-attack();
-
-
- </script> -->
-    </body>
-</html>
+//attack();
