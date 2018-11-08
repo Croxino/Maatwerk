@@ -1,7 +1,12 @@
 #log{
-	margin-left:50%;
+	float:right;
+	
 }
 
 textarea{
 	resize:none;
+}
+
+.stats{
+	margin-top:0px;
 }

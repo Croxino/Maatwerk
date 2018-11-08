@@ -9,6 +9,7 @@
         </meta>
     </head>
     <body>
+
         <form method="get" onsubmit="return false;">
             Enter your command
             <input id="commandprompt" type="text">
@@ -19,6 +20,13 @@
         <textarea cols="110" id="log" readonly="" rows="50">
         Welcome, your starting class is a warrior 
     </textarea>
+    	<div class="stats">
+        	<p id="level"></p>
+    	    <p id="healthPool"></p>
+    	    <p id="manaPool"></p>
+    	    <p id="experienceBar"></p>
+    	</div>
+
         <script src="javascript.js"></script>
 <!-- <script>
 let monsters = [{

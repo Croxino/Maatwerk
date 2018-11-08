@@ -2,7 +2,7 @@ let monsters = [{
     type: "slime",
     health: "20",
     strength: "5",
-    experience: "6",
+    experience: "20",
     locN: 1,
     locE: 0,
 }, {
@@ -15,13 +15,16 @@ let monsters = [{
 }]
 
 
-let warrior = {
+let player = {
+	level: 1,
     health: "30",
     mana: "10",
     strength: "15",
     vitality: "12",
     dexterity: "8",
     intelligence: "5",
+    experience:"20",
+    currExp: "0",
     locN: 0,
     locE: 0
 }
@@ -31,11 +34,25 @@ let locN = 0,
 
 let encounter = false;
 
+
 //overal comments neerzetten.
 
 /*function for adding text lines*/
 
 //adds lines on every new line
+
+window.onload = currentStats;
+
+
+function currentStats()
+{
+
+	document.getElementById("level").innerHTML = "Level: " + player.level;
+	document.getElementById("healthPool").innerHTML = "HP: " + player.health;
+	document.getElementById("manaPool").innerHTML = "MP: " + player.mana;
+	document.getElementById("experienceBar").innerHTML = "EXP: " + player.currExp + "/" + player.experience ;
+}
+
 function addLine(text)
 {
    add(text + "\n");
@@ -57,18 +74,16 @@ function monsterPresent()
 
         if (monster.locN == locN && monster.locE == locE ) 
         {
-            //addLine("You encounter a " + monster.type);
-
+            addLine("You encounter a " + monster.type);
             encounter = true;
             return monster;
         }
-
     }
     return false;
 }
 
 
-//window.onload = checkMonster();
+
 
 
 //main function for our game.
@@ -76,20 +91,20 @@ document.getElementById("myBtn").addEventListener("click", action);
 
 //Wat wil de gebruiker precies doen?
 function action(){
-    let monster = monsterPresent();
-    let command = document.getElementById("commandprompt").value.toUpperCase();
 
+    let command = document.getElementById("commandprompt").value.toUpperCase();
+    let monster = monsterPresent();
     switch(command)
     {
         case "ATTACK":
             if (monster) 
             {
-                //encounter = true;
-                attack(monster);
+                playerAttack(monster);
+                monsterAttack();
             }
             else 
             {
-                addLine("No monster present" + monster.type);
+                addLine("No monster present");
             }
         
         break;
@@ -102,9 +117,9 @@ function action(){
 /*movement*/
 function movement(cardinalDir) 
 {
-    let movementText;
-    let monster = monsterPresent();        
-    switch (cardinalDir) {
+    let movementText;       
+    switch (cardinalDir) 
+    {
         case "NORTH":
             movementText = "You moved North";
             locN++;
@@ -125,14 +140,11 @@ function movement(cardinalDir)
             movementText = "Which direction do you want to go?"
     }    
     addLine(movementText);
-
-
-
 }
 
 // function checkMonster(){
 //         let abc = monsterPresent();
-//         if (warrior.locN == "0" && warrior.locE == "0")
+//         if (player.locN == "0" && player.locE == "0")
 //         {   
 //             monsterPresent();
 //             addLine("You encounter a " + monster.type);
@@ -141,19 +153,67 @@ function movement(cardinalDir)
 // }
 
 function playerDamage(monster){
-    damage = Math.floor(Math.random() * warrior.strength);
+    damage = Math.floor(Math.random() * player.strength);
     monster.health -= damage;
     monster.health = Math.max(0, monster.health);
 }
 
+function monsterDamage(monster){
+    damage = Math.floor(Math.random() * monster.strength);
+    player.health -= damage;
+    player.health = Math.max(0, player.health);
 
-function attack(monster)
+}
+
+
+function playerAttack(monster)
 {
     playerDamage(monster);
     addLine("You deal " + damage + " damage") 
     addLine("The " + monster.type + " has " + monster.health + " HP left")
+    console.log(monster.health)
+    gainExperience();
+    currentStats(); 
+}
+
+function monsterAttack()
+{
+	let monster = monsterPresent();
+	monsterDamage(monster);
+    addLine("The " + monster.type + " dealt " + damage + " damage") 
+    addLine("You have " + player.health + " HP left")
     console.log(monster.health)   
 }
+
+function gainExperience()
+{
+	let monster = monsterPresent();
+	if (monster.health == 0) 
+	{
+		encounter = false;
+		player.currExp =+ monster.experience;
+		levelUp();
+	}
+}
+
+function levelUp()
+{
+	if (player.currExp >= player.experience) 
+	{
+		player.level = player.level + 1;
+	}
+}
+
+
+// function gameOver(){
+
+// 	if (player.health == "0") 
+// 	{
+// 		player.locN = 0;
+// 		player.locE = 0;
+// 		player.experience -= 50;
+// 	}
+// }
 
 
     console.log(locN, locE);
@@ -166,7 +226,7 @@ function attack(monster)
 //     let battle = document.getElementById("commandprompt").value.toUpperCase();
 //     if (battle = "ATTACK") 
 //     {
-//         damage = Math.floor(Math.random() * warrior.strength);
+//         damage = Math.floor(Math.random() * player.strength);
 //         monster.health -= damage;
 //         monster.health = Math.max(0, monster.health);
 //         console.log(monster.health);
