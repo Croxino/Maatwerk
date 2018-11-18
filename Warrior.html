@@ -10,20 +10,31 @@
     </head>
     <body>
 
+
         <form method="get" onsubmit="return false;">
             Enter your command
             <input id="commandprompt" type="text">
-                <input id ="myBtn" type="submit" value="Submit">
-                </input>
+                <input id ="myBtn" type="submit" value="Submit"></input>
             </input>
         </form>
+
+        <input id ="moveN" type="submit" value="North"></input>
+        <br></br>
+        <input id ="moveE" type="submit" value="East"></input>
+        <input id ="moveW" type="submit" value="West"></input>
+        <br></br>
+        <input id ="moveS" type="submit" value="South"></input>
+
+
         <textarea cols="110" id="log" readonly="" rows="50">
         Welcome, your starting class is a warrior 
     </textarea>
     	<div class="stats">
         	<p id="level"></p>
     	    <p id="healthPool"></p>
+    	    <progress id="progressHP"></progress>
     	    <p id="manaPool"></p>
+            <progress id="progressMP" ></progress>
     	    <p id="experienceBar"></p>
     	</div>
 

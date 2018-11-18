@@ -3,6 +3,7 @@ let monsters = [{
     health: "20",
     strength: "5",
     experience: "20",
+    gold: "5",
     locN: 1,
     locE: 0,
 }, {
@@ -10,6 +11,7 @@ let monsters = [{
     health: "10",
     strength: "5",
     experience: "6",
+    gold: "5",
     locN: 2,
     locE: 0
 }]
@@ -18,13 +20,16 @@ let monsters = [{
 let player = {
 	level: 1,
     health: "30",
+    currHealth: "30",
     mana: "10",
+    currMana: "10",
     strength: "15",
     vitality: "12",
     dexterity: "8",
     intelligence: "5",
     experience:"20",
     currExp: "0",
+    gold: "20",
     locN: 0,
     locE: 0
 }
@@ -44,13 +49,19 @@ let encounter = false;
 window.onload = currentStats;
 
 
+
 function currentStats()
 {
 
 	document.getElementById("level").innerHTML = "Level: " + player.level;
-	document.getElementById("healthPool").innerHTML = "HP: " + player.health;
-	document.getElementById("manaPool").innerHTML = "MP: " + player.mana;
+	document.getElementById("healthPool").innerHTML = "HP: " + player.currHealth + "/" + player.health;
+	document.getElementById("manaPool").innerHTML = "MP: " + player.currMana + "/" + player.mana;
 	document.getElementById("experienceBar").innerHTML = "EXP: " + player.currExp + "/" + player.experience ;
+	document.getElementById("progressHP").max = player.health;
+	document.getElementById("progressHP").value = player.currHealth;
+	document.getElementById("progressMP").max = player.mana;
+	document.getElementById("progressMP").value = player.currMana;
+
 }
 
 function addLine(text)
@@ -88,6 +99,10 @@ function monsterPresent()
 
 //main function for our game.
 document.getElementById("myBtn").addEventListener("click", action);
+document.getElementById("moveN").addEventListener("click", moveN);
+document.getElementById("moveE").addEventListener("click", moveE);
+document.getElementById("moveS").addEventListener("click", moveS);
+document.getElementById("moveW").addEventListener("click", moveW);
 
 //Wat wil de gebruiker precies doen?
 function action(){
@@ -142,6 +157,30 @@ function movement(cardinalDir)
     addLine(movementText);
 }
 
+function moveN(){
+	movementText = "You moved North";
+    locN++;
+    addLine(movementText);
+}
+
+function moveE(){
+	movementText = "You moved East";
+    locE++;
+    addLine(movementText);
+}
+
+function moveS(){
+	movementText = "You moved South";
+    locN--;
+    addLine(movementText);
+}
+
+function moveW(){
+	movementText = "You moved West";
+    locE--;
+    addLine(movementText);
+}
+
 // function checkMonster(){
 //         let abc = monsterPresent();
 //         if (player.locN == "0" && player.locE == "0")
@@ -160,8 +199,9 @@ function playerDamage(monster){
 
 function monsterDamage(monster){
     damage = Math.floor(Math.random() * monster.strength);
-    player.health -= damage;
-    player.health = Math.max(0, player.health);
+    player.currHealth -= damage;
+    player.currHealth = Math.max(0, player.currHealth);
+    //document.getElementById("progress").value = player.currHealth;
 
 }
 
@@ -171,7 +211,6 @@ function playerAttack(monster)
     playerDamage(monster);
     addLine("You deal " + damage + " damage") 
     addLine("The " + monster.type + " has " + monster.health + " HP left")
-    console.log(monster.health)
     gainExperience();
     currentStats(); 
 }
@@ -181,8 +220,7 @@ function monsterAttack()
 	let monster = monsterPresent();
 	monsterDamage(monster);
     addLine("The " + monster.type + " dealt " + damage + " damage") 
-    addLine("You have " + player.health + " HP left")
-    console.log(monster.health)   
+    addLine("You have " + player.currHealth + " HP left")   
 }
 
 function gainExperience()
@@ -190,6 +228,7 @@ function gainExperience()
 	let monster = monsterPresent();
 	if (monster.health == 0) 
 	{
+		addLine("The " + monster.type + " has died, you gained " + monster.experience + " experience!") 
 		encounter = false;
 		player.currExp =+ monster.experience;
 		levelUp();
@@ -200,14 +239,18 @@ function levelUp()
 {
 	if (player.currExp >= player.experience) 
 	{
+		addLine("Congratulations you leveled up!")
 		player.level = player.level + 1;
+		player.experience = player.experience + 100;
+		player.health + 5;
 	}
+
 }
 
 
 // function gameOver(){
 
-// 	if (player.health == "0") 
+// 	if (player.currHealth == "0") 
 // 	{
 // 		player.locN = 0;
 // 		player.locE = 0;
@@ -216,43 +259,10 @@ function levelUp()
 // }
 
 
+	console.log(player.experience)
+
     console.log(locN, locE);
     console.log(encounter);
-// function combat(monster) 
-// {
-// 	if (encounter = true) 
-// 	{
-// 	let battleText;
-//     let battle = document.getElementById("commandprompt").value.toUpperCase();
-//     if (battle = "ATTACK") 
-//     {
-//         damage = Math.floor(Math.random() * player.strength);
-//         monster.health -= damage;
-//         monster.health = Math.max(0, monster.health);
-//         console.log(monster.health);
-//         battleText = "You deal " + damage + " damage"
-//         document.getElementById("log").innerHTML += battleText + "\n";
-//         document.getElementById("log").innerHTML += "The " + monster.type + " has " + monster.health + " HP left" + "\n";
-
-//         if (monster.health != "0") {
-//         	       monster.health -= damage;
-//        	document.getElementById("log").innerHTML += battleText + "\n";
-//         document.getElementById("log").innerHTML += "The " + monster.type + " has " + monster.health + " HP left" + "\n";
-//         }
-// 	}
-//         if (monster.health <= "0") {
-//             document.getElementById("log").innerHTML += "Dead" + "\n";
-//             encounter = false;
-//         }
-//         console.log("damage dealt " + damage);
-//         console.log("monster health " + monster.health);
-//         console.log(monster.health - damage);
-//         console.log("hp left " + monster.health);
-
-// 	}
-    
-    
-// }
 
 
 

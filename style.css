@@ -1,6 +1,9 @@
 #log{
-	float:right;
-	
+	position:absolute;
+	top:0;
+	right:0;
+
+
 }
 
 textarea{
@@ -10,3 +13,22 @@ textarea{
 .stats{
 	margin-top:0px;
 }
+
+#moveN{
+	margin-top:50px;
+	margin-left:50px;
+}
+
+#moveE{
+	margin-left:20px;
+}
+
+#moveW{
+	margin-left:20px;
+}
+
+#moveS{
+	margin-left:50px;
+}
+
+
