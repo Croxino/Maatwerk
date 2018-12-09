@@ -1,7 +1,7 @@
 let monsters = [{
     type: "slime",
     health: "20",
-    strength: "5",
+    strength: "10",
     experience: "20",
     gold: "5",
     locN: 1,
@@ -27,15 +27,13 @@ let player = {
     vitality: "12",
     dexterity: "8",
     intelligence: "5",
-    experience:"20",
+    experience: 20,
     currExp: "0",
     gold: "20",
     locN: 0,
     locE: 0
 }
 
-let locN = 0,
-    locE = 0;
 
 let encounter = false;
 
@@ -83,9 +81,9 @@ function monsterPresent()
     {
         let monster = monsters[i];
 
-        if (monster.locN == locN && monster.locE == locE ) 
+        if (monster.locN ==  player.locN && monster.locE ==  player.locE ) 
         {
-            addLine("You encounter a " + monster.type);
+            //addLine("You encounter a " + monster.type);
             encounter = true;
             return monster;
         }
@@ -116,6 +114,11 @@ function action(){
             {
                 playerAttack(monster);
                 monsterAttack();
+                document.getElementById("healthPool").innerHTML = "HP: " + player.currHealth + "/" + player.health;
+                document.getElementById("progressHP").value = player.currHealth;
+                document.getElementById("manaPool").innerHTML = "MP: " + player.currMana + "/" + player.mana;
+                document.getElementById("progressMP").value = player.currMana;
+
             }
             else 
             {
@@ -132,64 +135,65 @@ function action(){
 /*movement*/
 function movement(cardinalDir) 
 {
-    let movementText;       
+    let movementText;
+
     switch (cardinalDir) 
     {
         case "NORTH":
             movementText = "You moved North";
-            locN++;
+            player.locN++;
             break;
         case "EAST":
             movementText = "You moved East";
-            locE++;
+            player.locE++;
             break
         case "SOUTH":
             movementText = "You moved South";
-            locN--;
+            player.locN--;
             break
         case "WEST":
             movementText = "You moved West";
-            locE--;
+            player.locE--;
             break;
         default:
             movementText = "Which direction do you want to go?"
-    }    
+    }
+    
     addLine(movementText);
+
+    let monster = monsterPresent();
+    if (monster) 
+    {
+        addLine("You encounter a " + monster.type);
+    }
+ 
+
 }
 
 function moveN(){
 	movementText = "You moved North";
-    locN++;
+     player.locN++;
     addLine(movementText);
 }
 
 function moveE(){
 	movementText = "You moved East";
-    locE++;
+     player.locE++;
     addLine(movementText);
 }
 
 function moveS(){
 	movementText = "You moved South";
-    locN--;
+     player.locN--;
     addLine(movementText);
 }
 
 function moveW(){
 	movementText = "You moved West";
-    locE--;
+     player.locE--;
     addLine(movementText);
 }
 
-// function checkMonster(){
-//         let abc = monsterPresent();
-//         if (player.locN == "0" && player.locE == "0")
-//         {   
-//             monsterPresent();
-//             addLine("You encounter a " + monster.type);
-//         }
-
-// }
 
 function playerDamage(monster){
     damage = Math.floor(Math.random() * player.strength);
@@ -211,8 +215,13 @@ function playerAttack(monster)
     playerDamage(monster);
     addLine("You deal " + damage + " damage") 
     addLine("The " + monster.type + " has " + monster.health + " HP left")
-    gainExperience();
-    currentStats(); 
+
+    if (monster.health == 0) {
+    	    gainExperience();
+  	   
+    }
+
+
 }
 
 function monsterAttack()
@@ -234,6 +243,8 @@ function gainExperience()
 		levelUp();
 	}
 }
+
+
 
 function levelUp()
 {
@@ -261,7 +272,7 @@ function levelUp()
 
 	console.log(player.experience)
 
-    console.log(locN, locE);
+    console.log(player.locN, player.locE);
     console.log(encounter);
 
 
