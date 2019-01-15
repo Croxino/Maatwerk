@@ -1,38 +1,83 @@
-let monsters = [{
-    type: "slime",
-    health: "20",
-    strength: "10",
-    experience: "10",
-    gold: "5",
-    locN: 1,
-    locE: 0,
-}, {
-    type: "rat",
-    health: "10",
-    strength: "5",
-    experience: "6",
-    gold: "5",
-    locN: 2,
-    locE: 0
-}]
-
-
-let player = {
-	level: "1",
-    health: "30",
-    currHealth: "30",
-    mana: "10",
-    currMana: "10",
-    strength: "15",
-    vitality: "12",
-    dexterity: "8",
-    intelligence: "5",
-    experience: 20,
-    currExp: "0",
-    gold: "20",
-    locN: 0,
-    locE: 0
+class creature{
+    constructor(type, health, strength, gold, locN, locE, experience)
+    {
+        this.type = type;
+        this.health = health;
+        this.strength = strength;
+        this.gold = gold;
+        this.locN = locN;
+        this.locE = locE;
+        this.experience = experience;
+    }
 }
+
+
+class monsters extends creature{
+    constructor(type, health, strength, gold, locN, locE, experience){
+        super(type, health, strength, gold, locN, locE, experience);
+    }
+
+}
+
+class player extends creature{
+        constructor(type, health, strength, gold, locN, locE, experience, currHealth, mana,currMana, vitality,dexterity,intelligence, currExp){
+            super(type, health, strength, gold, locN, locE, experience);
+            this.currHealth = currHealth;
+            this.mana = mana;
+            this.currMana = currMana;
+            this.vitality = vitality;
+            this.dexterity = dexterity;
+            this.intelligence = intelligence;
+            this.currExp = currExp;
+        }
+}
+
+let warrior = new player('Warrior', '30', '15', '30', '0', '0', '20', '30', '10', '10', '12', '8', '5', '0');
+let slime = new monsters ('Slime', '20', '10', '5', '1', '0', '10');
+let rat = new monsters('Rat', '10', '5', '5', '2', '0', '10');
+
+let a = [slime, rat]
+console.log(a);
+
+
+
+
+
+// let monsters = [{
+//     type: "slime",
+//     health: "20",
+//     strength: "10",
+//     experience: 10,
+//     gold: "5",
+//     locN: 1,
+//     locE: 0,
+// }, {
+//     type: "rat",
+//     health: "10",
+//     strength: "5",
+//     experience: "6",
+//     gold: "5",
+//     locN: 2,
+//     locE: 0
+// }]
+
+
+// let warrior = {
+// 	level: 1,
+//     health: "30",
+//     currHealth: "30",
+//     mana: "10",
+//     currMana: "10",
+//     strength: "15",
+//     vitality: "12",
+//     dexterity: "8",
+//     intelligence: "5",
+//     experience: 20,
+//     currExp: 0,
+//     gold: "20",
+//     locN: 0,
+//     locE: 0
+// }
 
 
 let encounter = false;
@@ -51,14 +96,14 @@ window.onload = currentStats;
 function currentStats()
 {
 
-	document.getElementById("level").innerHTML = "Level: " + player.level;
-	document.getElementById("healthPool").innerHTML = "HP: " + player.currHealth + "/" + player.health;
-	document.getElementById("manaPool").innerHTML = "MP: " + player.currMana + "/" + player.mana;
-	document.getElementById("experienceBar").innerHTML = "EXP: " + player.currExp + "/" + player.experience ;
-	document.getElementById("progressHP").max = player.health;
-	document.getElementById("progressHP").value = player.currHealth;
-	document.getElementById("progressMP").max = player.mana;
-	document.getElementById("progressMP").value = player.currMana;
+	document.getElementById("level").innerHTML = "Level: " + warrior.level;
+	document.getElementById("healthPool").innerHTML = "HP: " + warrior.currHealth + "/" + warrior.health;
+	document.getElementById("manaPool").innerHTML = "MP: " + warrior.currMana + "/" + warrior.mana;
+	document.getElementById("experienceBar").innerHTML = "EXP: " + warrior.currExp + "/" + warrior.experience ;
+	document.getElementById("progressHP").max = warrior.health;
+	document.getElementById("progressHP").value = warrior.currHealth;
+	document.getElementById("progressMP").max = warrior.mana;
+	document.getElementById("progressMP").value = warrior.currMana;
 
 }
 
@@ -77,11 +122,11 @@ function add(text)
 /*Checks if monster is present on given locations*/
 function monsterPresent() 
 {
-    for (let i = 0; i < monsters.length; i++) 
+    for (let i = 0; i < a.length; i++) 
     {
-        let monster = monsters[i];
+        let monster = a[i];
 
-        if (monster.locN ==  player.locN && monster.locE ==  player.locE ) 
+        if (monster.locN ==  warrior.locN && monster.locE ==  warrior.locE ) 
         {
             //addLine("You encounter a " + monster.type);
             encounter = true;
@@ -112,7 +157,7 @@ function action(){
         case "ATTACK":
             if (monster) 
             {
-                playerAttack(monster);
+                warriorAttack(monster);
                 monsterAttack();
             }
             else 
@@ -136,19 +181,19 @@ function movement(cardinalDir)
     {
         case "NORTH":
             movementText = "You moved North";
-            player.locN++;
+            warrior.locN++;
             break;
         case "EAST":
             movementText = "You moved East";
-            player.locE++;
+            warrior.locE++;
             break
         case "SOUTH":
             movementText = "You moved South";
-            player.locN--;
+            warrior.locN--;
             break
         case "WEST":
             movementText = "You moved West";
-            player.locE--;
+            warrior.locE--;
             break;
         default:
             movementText = "Which direction do you want to go?"
@@ -167,46 +212,46 @@ function movement(cardinalDir)
 
 function moveN(){
 	movementText = "You moved North";
-     player.locN++;
+     warrior.locN++;
     addLine(movementText);
 }
 
 function moveE(){
 	movementText = "You moved East";
-     player.locE++;
+     warrior.locE++;
     addLine(movementText);
 }
 
 function moveS(){
 	movementText = "You moved South";
-     player.locN--;
+     warrior.locN--;
     addLine(movementText);
 }
 
 function moveW(){
 	movementText = "You moved West";
-     player.locE--;
+     warrior.locE--;
     addLine(movementText);
 }
 
 
-function playerDamage(monster){
-    damage = Math.floor(Math.random() * player.strength);
+function warriorDamage(monster){
+    damage = Math.floor(Math.random() * warrior.strength);
     monster.health -= damage;
     monster.health = Math.max(0, monster.health);
 }
 
 function monsterDamage(monster){
     damage = Math.floor(Math.random() * monster.strength);
-    player.currHealth -= damage;
-    player.currHealth = Math.max(0, player.currHealth);
-    //document.getElementById("progress").value = player.currHealth;
+    warrior.currHealth -= damage;
+    warrior.currHealth = Math.max(0, warrior.currHealth);
+    //document.getElementById("progress").value = warrior.currHealth;
 }
 
 
-function playerAttack(monster)
+function warriorAttack(monster)
 {
-    playerDamage(monster);
+    warriorDamage(monster);
     addLine("You deal " + damage + " damage") 
     addLine("The " + monster.type + " has " + monster.health + " HP left")
 
@@ -217,8 +262,8 @@ function playerAttack(monster)
 
     }
 
-        document.getElementById("manaPool").innerHTML = "MP: " + player.currMana + "/" + player.mana;
-        document.getElementById("progressMP").value = player.currMana;
+        document.getElementById("manaPool").innerHTML = "MP: " + warrior.currMana + "/" + warrior.mana;
+        document.getElementById("progressMP").value = warrior.currMana;
 }
 
 function monsterAttack()
@@ -226,20 +271,21 @@ function monsterAttack()
 	let monster = monsterPresent();
 	monsterDamage(monster);
     addLine("The " + monster.type + " dealt " + damage + " damage") 
-    addLine("You have " + player.currHealth + " HP left")
-    document.getElementById("healthPool").innerHTML = "HP: " + player.currHealth + "/" + player.health;
-    document.getElementById("progressHP").value = player.currHealth;  
+    addLine("You have " + warrior.currHealth + " HP left")
+    document.getElementById("healthPool").innerHTML = "HP: " + warrior.currHealth + "/" + warrior.health;
+    document.getElementById("progressHP").value = warrior.currHealth;  
 }
 
 
 function levelUp()
 {
-    if (player.currExp >= player.experience) 
+    if (warrior.currExp >= warrior.experience) 
     {
         addLine("Congratulations you leveled up!")
-        player.level = player.level + "1";
-        player.experience = player.experience + 100;
-        player.health + 5;
+        warrior.level = warrior.level + 1;
+            document.getElementById("level").innerHTML = "Level: " + warrior.level;
+        warrior.experience = warrior.experience + 100;
+        warrior.health + 5;
     }
 
 }
@@ -251,10 +297,10 @@ function gainExperience()
 	{
 		addLine("The " + monster.type + " has died, you gained " + monster.experience + " experience!") 
 		encounter = false;
-		player.currExp =+ monster.experience;
+		warrior.currExp += monster.experience;
 		levelUp();
-        console.log(player.currExp);
-        document.getElementById("experienceBar").innerHTML = "EXP: " + player.currExp + "/" + player.experience ;
+        console.log(warrior.currExp);
+        document.getElementById("experienceBar").innerHTML = "EXP: " + warrior.currExp + "/" + warrior.experience ;
 	}
 }
 
@@ -263,18 +309,18 @@ function gainExperience()
 
 // function gameOver(){
 
-// 	if (player.currHealth == "0") 
+// 	if (warrior.currHealth == "0") 
 // 	{
-// 		player.locN = 0;
-// 		player.locE = 0;
-// 		player.experience -= 50;
+// 		warrior.locN = 0;
+// 		warrior.locE = 0;
+// 		warrior.experience -= 50;
 // 	}
 // }
 
 
-	console.log(player.currExp)
+	console.log(warrior.currExp)
 
-    console.log(player.locN, player.locE);
+    console.log(warrior.locN, warrior.locE);
     console.log(encounter);
 
 
